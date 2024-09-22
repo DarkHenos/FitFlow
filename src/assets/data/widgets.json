@@ -1,122 +1,63 @@
 {
-    "widgets": [
-      {
-        "id": "chronometer",
-        "name": "Chronometer",
-        "description": "Track elapsed time accurately.",
-        "icon": "fas fa-stopwatch",
-        "status": "available",
-        "dimensions": [
-          {
-            "width": 3,
-            "height": 1
-          }
-        ],
-        "components": {
-          "3x1": "ChronometerWidget-3x1"
-        }
-      },
-      {
-        "id": "timer",
-        "name": "Timer",
-        "description": "Set a timer for your workout sessions.",
-        "icon": "fas fa-hourglass-half",
-        "status": "available",
-        "dimensions": [
-          {
-            "width": 1,
-            "height": 1
-          },
-          {
-            "width": 2,
-            "height": 2
-          },
-          {
-            "width": 3,
-            "height": 1
-          },
-          {
-            "width": 3,
-            "height": 2
-          }
-        ],
-        "components": {
-          "1x1": "src/components/widgets/TimerWidget/TimerWidget-1x1.vue",
-          "2x2": "src/components/widgets/TimerWidget/TimerWidget-2x2.vue",
-          "3x1": "src/components/widgets/TimerWidget/TimerWidget-3x1.vue",
-          "3x2": "src/components/widgets/TimerWidget/TimerWidget-3x2.vue"
-        }
-      },
-      {
-        "id": "series-counter",
-        "name": "Series Counter",
-        "description": "Keep track of the number of series completed.",
-        "icon": "fas fa-list-ol",
-        "status": "available",
-        "dimensions": [
-          {
-            "width": 1,
-            "height": 1
-          },
-          {
-            "width": 2,
-            "height": 2
-          },
-          {
-            "width": 3,
-            "height": 1
-          },
-          {
-            "width": 3,
-            "height": 2
-          },
-          {
-            "width": 3,
-            "height": 3
-          }
-        ],
-        "components": {
-          "1x1": "src/components/widgets/SeriesCounterWidget/SeriesCounterWidget-1x1.vue",
-          "2x2": "src/components/widgets/SeriesCounterWidget/SeriesCounterWidget-2x2.vue",
-          "3x1": "src/components/widgets/SeriesCounterWidget/SeriesCounterWidget-3x1.vue",
-          "3x2": "src/components/widgets/SeriesCounterWidget/SeriesCounterWidget-3x2.vue",
-          "3x3": "src/components/widgets/SeriesCounterWidget/SeriesCounterWidget-3x3.vue"
-        }
-      },
-      {
-        "id": "workout-checklist",
-        "name": "Workout Checklist",
-        "description": "Create and manage a checklist of exercises to keep track of your workout routine.",
-        "icon": "fas fa-tasks",
-        "status": "coming-soon"
-      },
-      {
-        "id": "custom-workout-planner",
-        "name": "Custom Workout Planner",
-        "description": "Design your own workout programs tailored to your fitness goals.",
-        "icon": "fas fa-calendar-alt",
-        "status": "coming-soon"
-      },
-      {
-        "id": "workout-history",
-        "name": "Workout History",
-        "description": "Review past workouts to see improvements and adjust future routines.",
-        "icon": "fas fa-history",
-        "status": "coming-soon"
-      },
-      {
-        "id": "workout-challenge",
-        "name": "Workout Challenge",
-        "description": "Participate in fitness challenges and track your performance against others.",
-        "icon": "fas fa-trophy",
-        "status": "coming-soon"
-      },
-      {
-        "id": "fitness-journal",
-        "name": "Fitness Journal",
-        "description": "Keep a daily log of workouts, nutrition, and progress.",
-        "icon": "fas fa-book",
-        "status": "coming-soon"
-      }
-    ]
-  }
+  "widgets": [
+    {
+      "id": "chronometer",
+      "name": "Chronometer",
+      "description": "Track elapsed time accurately.",
+      "icon": "fas fa-stopwatch",
+      "status": "available",
+      "component": "ChronometerWidget"
+    },
+    {
+      "id": "timer",
+      "name": "Timer",
+      "description": "Set a timer for your workout sessions.",
+      "icon": "fas fa-hourglass-half",
+      "status": "available",
+      "component": "TimerWidget"
+    },
+    {
+      "id": "series-counter",
+      "name": "Series Counter",
+      "description": "Keep track of the number of series completed.",
+      "icon": "fas fa-list-ol",
+      "status": "available",
+      "component": "SeriesCounterWidget"
+    },
+    {
+      "id": "workout-checklist",
+      "name": "Workout Checklist",
+      "description": "Create and manage a checklist of exercises to keep track of your workout routine.",
+      "icon": "fas fa-tasks",
+      "status": "coming-soon"
+    },
+    {
+      "id": "custom-workout-planner",
+      "name": "Custom Workout Planner",
+      "description": "Design your own workout programs tailored to your fitness goals.",
+      "icon": "fas fa-calendar-alt",
+      "status": "coming-soon"
+    },
+    {
+      "id": "workout-history",
+      "name": "Workout History",
+      "description": "Review past workouts to see improvements and adjust future routines.",
+      "icon": "fas fa-history",
+      "status": "coming-soon"
+    },
+    {
+      "id": "workout-challenge",
+      "name": "Workout Challenge",
+      "description": "Participate in fitness challenges and track your performance against others.",
+      "icon": "fas fa-trophy",
+      "status": "coming-soon"
+    },
+    {
+      "id": "fitness-journal",
+      "name": "Fitness Journal",
+      "description": "Keep a daily log of workouts, nutrition, and progress.",
+      "icon": "fas fa-book",
+      "status": "coming-soon"
+    }
+  ]
+}

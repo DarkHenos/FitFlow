@@ -40,6 +40,7 @@
       <widget-selector
         :available-widgets="availableWidgets"
         @select-widget="addWidget"
+        @close-modal="closeWidgetSelector"
       />
     </adaptive-modal>
   </div>
@@ -66,16 +67,34 @@ export default {
     const showWidgetSelector = ref(false);
     const isTextVisible = ref(true);
 
+    // Ajout de logs pour le suivi
+    console.log('Active Widgets:', activeWidgets.value);
+    console.log('Available Widgets:', availableWidgets.value);
+
     const openWidgetSelector = () => {
       showWidgetSelector.value = true;
+      console.log('Widget selector opened');
+    };
+
+    const closeWidgetSelector = () => {
+      showWidgetSelector.value = false;
+      console.log('Widget selector closed');
     };
 
     const updateWidgets = (updatedWidgets) => {
       updateWidgetPosition(updatedWidgets);
+      console.log('Widgets updated:', updatedWidgets);
     };
 
     const toggleTextVisibility = () => {
       isTextVisible.value = !isTextVisible.value;
+      console.log('Text visibility toggled:', isTextVisible.value);
+    };
+
+    const handleAddWidget = (widget) => {
+      addWidget(widget);
+      console.log('Widget added:', widget);
+      closeWidgetSelector();
     };
 
     return {
@@ -84,7 +103,8 @@ export default {
       widgetGridRef,
       showWidgetSelector,
       openWidgetSelector,
-      addWidget,
+      closeWidgetSelector,
+      addWidget: handleAddWidget,
       updateWidgets,
       isTextVisible,
       toggleTextVisibility,

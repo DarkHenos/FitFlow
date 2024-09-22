@@ -1,15 +1,17 @@
 <template>
   <div 
-    class="widget chronometer-widget"
+    :class="['widget', 'chronometer-widget', { 'dark-mode': darkMode }]"
     @mousedown="startDrag"
     @touchstart="startDrag"
   >
-    <h2>{{ title }}</h2>
-    <div class="time">{{ formattedTime }}</div>
+    <div class="timer-content">
+      <h2 class="title">{{ title }}</h2>
+      <div class="time">{{ formattedTime }}</div>
+    </div>
     <div class="controls">
-      <button @click.stop="startChronometer">Start</button>
-      <button @click.stop="stopChronometer">Stop</button>
-      <button @click.stop="resetChronometer">Reset</button>
+      <button v-if="!isRunning" @click.stop="startChronometer" class="start-btn">Start</button>
+      <button v-if="isRunning" @click.stop="stopChronometer" class="stop-btn">Stop</button>
+      <button @click.stop="resetChronometer" class="reset-btn">Reset</button>
     </div>
   </div>
 </template>
@@ -31,6 +33,7 @@ export default {
       isDragging: false,
       startX: 0,
       startY: 0,
+      wakeLock: null,
     };
   },
   computed: {
@@ -42,22 +45,25 @@ export default {
     },
   },
   methods: {
-    startChronometer() {
+    async startChronometer() {
       if (!this.isRunning) {
         this.isRunning = true;
         this.interval = setInterval(() => {
           this.elapsedTime += 100;
         }, 100);
+        await this.requestWakeLock();
       }
     },
-    stopChronometer() {
+    async stopChronometer() {
       this.isRunning = false;
       clearInterval(this.interval);
+      await this.releaseWakeLock();
     },
-    resetChronometer() {
+    async resetChronometer() {
       this.isRunning = false;
       clearInterval(this.interval);
       this.elapsedTime = 0;
+      await this.releaseWakeLock();
     },
     startDrag(event) {
       this.isDragging = true;
@@ -90,35 +96,72 @@ export default {
       document.removeEventListener('mouseup', this.stopDrag);
       document.removeEventListener('touchend', this.stopDrag);
     },
+    async requestWakeLock() {
+      if ('wakeLock' in navigator) {
+        try {
+          this.wakeLock = await navigator.wakeLock.request('screen');
+        } catch (err) {
+          console.error(`${err.name}, ${err.message}`);
+        }
+      }
+    },
+    async releaseWakeLock() {
+      if (this.wakeLock !== null) {
+        try {
+          await this.wakeLock.release();
+          this.wakeLock = null;
+        } catch (err) {
+          console.error(`${err.name}, ${err.message}`);
+        }
+      }
+    },
   },
   beforeUnmount() {
     clearInterval(this.interval);
+    this.releaseWakeLock();
   },
 };
 </script>
 
 <style scoped>
 .chronometer-widget {
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--widget-bg-color, #f0f0f0);
+  color: var(--widget-text-color, #333);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 130px;
+  padding: 0.5rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.timer-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  height: 100%;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.title {
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 0.1rem;
 }
 
 .time {
   font-size: 2rem;
   font-weight: bold;
-  margin: 1rem 0;
+  margin: 0.1rem 0;
 }
 
 .controls {
   display: flex;
-  gap: 0.5rem;
+  justify-content: space-around;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
 }
 
 button {
@@ -126,10 +169,62 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
+  font-weight: bold;
+  font-size: 1rem;
+  min-width: 4rem;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+}
+
+.start-btn {
+  background-color: var(--widget-start-btn-color, #4CAF50);
+  color: white;
+}
+
+.stop-btn {
+  background-color: var(--widget-stop-btn-color, #f44336);
+  color: white;
+}
+
+.reset-btn {
+  background-color: var(--widget-reset-btn-color, #2196F3);
+  color: white;
 }
 
 button:hover {
   opacity: 0.8;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (hover: none) {
+  button:hover {
+    opacity: 1;
+  }
+}
+
+:root {
+  --widget-bg-color: #f0f0f0;
+  --widget-text-color: #333;
+  --widget-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --widget-start-btn-color: #4CAF50;
+  --widget-stop-btn-color: #f44336;
+  --widget-reset-btn-color: #2196F3;
+}
+
+:root.dark {
+  --widget-bg-color: #2c2c2c;
+  --widget-text-color: #f0f0f0;
+  --widget-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+  --widget-start-btn-color: #45a049;
+  --widget-stop-btn-color: #d32f2f;
+  --widget-reset-btn-color: #1e88e5;
 }
 </style>

@@ -8,22 +8,22 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <!-- Chronomètre -->
       <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
-        <h2 class="text-xl font-semibold text-black dark:text-white mb-2">Chronomètre</h2>
-        <p class="text-gray-700 dark:text-gray-300 mb-4">Suivez le temps écoulé avec précision.</p>
+        <h2 class="text-xl font-semibold text-black dark:text-white mb-2">Chronometer</h2>
+        <p class="text-gray-700 dark:text-gray-300 mb-4">Track elapsed time accurately.</p>
         <button class="px-4 py-2 bg-primary-light text-white rounded shadow hover:opacity-90 transition duration-300">Start</button>
       </div>
 
       <!-- Minuteur -->
       <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
-        <h2 class="text-xl font-semibold text-black dark:text-white mb-2">Minuteur</h2>
-        <p class="text-gray-700 dark:text-gray-300 mb-4">Réglez un minuteur pour vos sessions d'entraînement.</p>
+        <h2 class="text-xl font-semibold text-black dark:text-white mb-2">Timer</h2>
+        <p class="text-gray-700 dark:text-gray-300 mb-4">Set a timer for your training sessions.</p>
         <button class="px-4 py-2 bg-primary-light text-white rounded shadow hover:opacity-90 transition duration-300">Start</button>
       </div>
 
       <!-- Compteur de séries -->
       <div class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md">
-        <h2 class="text-xl font-semibold text-black dark:text-white mb-2">Compteur de Séries</h2>
-        <p class="text-gray-700 dark:text-gray-300 mb-4">Gardez une trace du nombre de séries effectuées.</p>
+        <h2 class="text-xl font-semibold text-black dark:text-white mb-2">Reps Counter</h2>
+        <p class="text-gray-700 dark:text-gray-300 mb-4">Keep track of the number of reps performed.</p>
         <button class="px-4 py-2 bg-primary-light text-white rounded shadow hover:opacity-90 transition duration-300">Start</button>
       </div>
 

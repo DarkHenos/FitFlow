@@ -13,12 +13,7 @@ requireWidget.keys().forEach(fileName => {
 export function useWidgets() {
   const widgets = shallowRef(widgetsData.widgets.map(widget => ({
     ...widget,
-    componentMap: widget.components ? Object.fromEntries(
-      Object.entries(widget.components).map(([size, componentName]) => [
-        size,
-        widgetComponents[componentName]
-      ])
-    ) : {}
+    component: widget.component ? widgetComponents[widget.component] : null
   })));
 
   const activeWidgets = shallowRef([]);
@@ -30,9 +25,9 @@ export function useWidgets() {
   const addWidget = (widget) => {
     const newWidget = { 
       ...widget, 
-      position: findAvailablePosition(widget.size),
-      component: widget.componentMap[widget.size]
+      position: findAvailablePosition(),
     };
+    console.log("Adding widget:", newWidget);  // Debug log
     activeWidgets.value = [...activeWidgets.value, newWidget];
     saveToLocalStorage();
   };
@@ -47,34 +42,18 @@ export function useWidgets() {
     saveToLocalStorage();
   };
 
-  const findAvailablePosition = (size) => {
-    const [width, height] = size.split('x').map(Number);
-    for (let row = 1; row <= 4; row++) {
-      for (let col = 1; col <= 3; col++) {
-        if (isPositionAvailable(row, col, width, height)) {
-          return { row, col };
-        }
-      }
+  const findAvailablePosition = () => {
+    const occupiedPositions = activeWidgets.value.map(widget => widget.position);
+    let newPosition = 1;
+    while (occupiedPositions.includes(newPosition)) {
+      newPosition++;
     }
-    return null;
-  };
-
-  const isPositionAvailable = (row, col, width, height) => {
-    return !activeWidgets.value.some(widget => {
-      const [w, h] = widget.size.split('x').map(Number);
-      return (
-        row < widget.position.row + h &&
-        row + height > widget.position.row &&
-        col < widget.position.col + w &&
-        col + width > widget.position.col
-      );
-    });
+    return newPosition;
   };
 
   const saveToLocalStorage = () => {
     const dataToSave = activeWidgets.value.map(widget => ({
       id: widget.id,
-      size: widget.size,
       position: widget.position
     }));
     localStorage.setItem('activeWidgets', JSON.stringify(dataToSave));
@@ -86,34 +65,14 @@ export function useWidgets() {
       const parsedWidgets = JSON.parse(savedWidgets);
       activeWidgets.value = parsedWidgets.map((savedWidget) => {
         const widget = widgets.value.find(w => w.id === savedWidget.id);
-        if (widget && widget.componentMap[savedWidget.size]) {
+        if (widget) {
           return {
             ...widget,
-            size: savedWidget.size,
             position: savedWidget.position,
-            component: widget.componentMap[savedWidget.size]
           };
         }
         return null;
       }).filter(Boolean);
-    }
-  };
-
-  const resizeWidget = (widgetId, newSize) => {
-    const widgetIndex = activeWidgets.value.findIndex(w => w.id === widgetId);
-    if (widgetIndex !== -1) {
-      const widget = activeWidgets.value[widgetIndex];
-      const newPosition = findAvailablePosition(newSize);
-      if (newPosition) {
-        const updatedWidget = {
-          ...widget,
-          size: newSize,
-          position: newPosition,
-          component: widget.componentMap[newSize]
-        };
-        activeWidgets.value.splice(widgetIndex, 1, updatedWidget);
-        saveToLocalStorage();
-      }
     }
   };
 
@@ -128,7 +87,6 @@ export function useWidgets() {
     addWidget,
     updateWidgetPosition,
     removeWidget,
-    resizeWidget,
     initWidgets
   };
 }

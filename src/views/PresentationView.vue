@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen p-6 bg-beige dark:bg-gray-800 pt-20 transition-colors duration-300">
     <h1 class="text-5xl font-bold text-center text-black dark:text-white mb-8">
-      Welcome to FitPulse
+      Welcome to FitFlow
     </h1>
     <p class="text-xl text-center text-gray-700 dark:text-gray-300 max-w-3xl mb-12">
       FitPulse is your personal fitness companion, designed to help you track, manage, and improve your sports activities.
